@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         
         mc:Ignorable="d"
-        Title="Show Ping Ingame"
+        Title="Show Ping"
         WindowState="Maximized"
         AllowsTransparency="True" WindowStyle="None" Background="Transparent"
         WindowStartupLocation="CenterScreen"
