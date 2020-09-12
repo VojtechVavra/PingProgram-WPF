@@ -7,7 +7,7 @@ using System.Windows.Media;
 
 namespace ShowPing.src
 {
-    static class colors
+    static class Colors
     {
         public static string white = "#FFC9C9C9";
         public static string green = "#FF22A01C";
@@ -19,7 +19,7 @@ namespace ShowPing.src
         string hostname = "51.178.64.97";   // warmane Blackrock realm server
         //int port = 8095;  // server port - not needed
         const int sleeptime = 300;
-        int timeout = 250;
+        readonly int timeout = 250;
 
         TextBlock tb_ping;
         int posY = 274;     // more goes down
@@ -86,49 +86,46 @@ namespace ShowPing.src
             Console.WriteLine("Pinging WoW Warmane server on realm: Blackrock ip 51.178.64.97, port 8095");
 
             Ping ping = new Ping();
+            PingReply pingreply;
 
-            while(true)
+            while (true)
             {
                 try
                 {
-                    PingReply pingreply = ping.Send(hostname, timeout);
-                    if (pingreply.Status == IPStatus.Success)
-                    {
+                    pingreply = ping.Send(hostname, timeout);
+
+                    if (pingreply.Status == IPStatus.Success) {
                         //Console.WriteLine("Address: {0}", pingreply.Address);
                         //Console.WriteLine("status: {0}", pingreply.Status);
                         //Console.WriteLine("Round trip time: {0}", pingreply.RoundtripTime);
 
                         Color color;
-                        if (pingreply.RoundtripTime > 100)
-                        {
-                            color = (Color)ColorConverter.ConvertFromString(colors.red);
+                        if (pingreply.RoundtripTime > 100) {
+                            color = (Color)ColorConverter.ConvertFromString(Colors.red);
 
                             Application.Current.Dispatcher.BeginInvoke((Action)(() => tb_ping.Foreground = new SolidColorBrush(color)));
-                        }
-                        else
-                        {
-                            color = (Color)ColorConverter.ConvertFromString(colors.white);
+                        } else {
+                            color = (Color)ColorConverter.ConvertFromString(Colors.white);
 
                             Application.Current.Dispatcher.BeginInvoke((Action)(() => tb_ping.Foreground = new SolidColorBrush(color)));
                         }
 
                         Application.Current.Dispatcher.BeginInvoke((Action)(() => tb_ping.Text = pingreply.RoundtripTime.ToString()));
+                    } else if(pingreply.Status == IPStatus.TimedOut) {
+                        Console.WriteLine("TimedOut");
                     }
-                    else
-                    {
+                    else {
                         Console.WriteLine("Bad ip or hostname given.");
                     }
                 }
-                catch (PingException ex)
-                {
+                catch (PingException ex) {
                     Console.WriteLine(ex);
-                    Color color = (Color)ColorConverter.ConvertFromString(colors.red);
+                    Color color = (Color)ColorConverter.ConvertFromString(Colors.red);
 
                     Application.Current.Dispatcher.BeginInvoke((Action)(() => tb_ping.Foreground = new SolidColorBrush(color)));
                     Application.Current.Dispatcher.BeginInvoke((Action)(() => tb_ping.Text = "TimeOut"));
                 }
-                finally
-                {
+                finally {
                     Thread.Sleep(sleeptime);
                 }
             }
