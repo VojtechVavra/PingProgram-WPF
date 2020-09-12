@@ -14,6 +14,10 @@ namespace ShowPing
         {
             MainWindow wnd = new MainWindow();
             
+            wnd.Activate();
+            Current.MainWindow.Activate();
+            Current.MainWindow.Topmost = true;
+
             if (e.Args.Length == 0)
             {
                 Console.WriteLine("0 arguments");

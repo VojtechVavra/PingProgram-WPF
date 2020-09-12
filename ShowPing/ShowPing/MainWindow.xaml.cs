@@ -15,6 +15,8 @@ namespace ShowPing
         {
             InitializeComponent();
 
+            Application.Current.MainWindow.Activate();
+            Application.Current.MainWindow.Focus();
             Application.Current.MainWindow.Topmost = true;
         }
 
